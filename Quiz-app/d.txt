@@ -1,0 +1,59 @@
+const questionDispaly = document.getElementById('question');
+const answerDispaly = document.getElementById('answerBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+
+let questionIndexNo = 0;
+let score = 0;
+
+function startQuest() {
+    questionIndexNo = 0;
+    score = 0;
+    nextBtn.innerHTML = 'Next';
+    shoQuest()
+};
+
+function shoQuest() {
+    resetQuestion();
+    let corentQuestion = questions[questionIndexNo];
+    let questionNo = questionIndexNo + 1;
+    questionDispaly.innerHTML = questionNo + '. ' + corentQuestion.question;
+
+    corentQuestion.answers.forEach(answer => {
+        let button = document.createElement('button');
+        button.innerHTML = answer.text;
+        button.classList.add('btn');
+        questionDispaly.appendChild(button);
+
+        if (answer.correct) {
+            button.dataset.correct = answer.correct;
+        }
+        button.addEventListener('click', selectAnswer)
+    })
+
+}
+function resetQuestion() {
+    nextBtn.style.display = 'none'
+    while (answerDispaly.firstChild) {
+        answerDispaly.removeChild(answerDispaly.firstChild)
+    }
+};
+function selectAnswer(e) {
+    const selectBtn = e.target;
+    const isCorrect = selectBtn.dataset.correct === 'true';
+    if (isCorrect) {
+        selectBtn.classList.add('correct')
+    } else {
+        selectBtn.classList.add('inCorrect')
+    }
+    answerDispaly.children.forEach(button => {
+    
+    if (button.dataset.correct === 'true') {
+    }
+    button.disabled = true;
+});
+    nextBtn.style.display = 'block';
+}
+
+
+startQuest()
